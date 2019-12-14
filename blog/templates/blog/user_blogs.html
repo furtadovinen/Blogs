@@ -1,26 +1,24 @@
 {% extends 'blog/base.html' %}
 {% block content %}
-
+<h1 class="mb-3">Posts by {{ view.kwargs.username }} ({{ page_obj.paginator.count }})</h1>
   {% for post in blogs %}
-
-      <article class="content-section">
-        <div class="row pt-3">
-          <div class="row-5">
-            <img class="img-thumbnail" height=300 width=100 src="{{ post.blogger.profile.image.url }}">
+  <article class="content-section">
+    <div class="row pt-3">
+      <div class="row-5">
+        <img class="img-thumbnail" height=300 width=100 src="{{ post.blogger.profile.image.url }}">
+      </div>
+      <div class="col-10">
+        <div class="media-body">
+          <div class="article-metadata">
+            <a class="mr-2" href="{% url 'user-blogs' post.blogger.username %}">{{ post.blogger }}</a>
+            <small class="text-muted">{{ post.pub_date | date:"F d, Y" }}</small>
           </div>
-          <div class="col-10">
-            <div class="media-body">
-              <div class="article-metadata">
-                <a class="mr-2" href="{% url 'user-blogs' post.blogger.username %}">{{ post.blogger }}</a>
-                <small class="text-muted">{{ post.pub_date | date:"F d, Y" }}</small>
-              </div>
-              <h2><a class="article-title" href="{% url 'detail' post.id %}">{{ post.title }}</a></h2>
-              <p class="article-content">{{ post.summary }}</p>
-            </div>
-          </div>
+          <h2><a class="article-title" href="{% url 'detail' post.id %}">{{ post.title }}</a></h2>
+          <p class="article-content">{{ post.body }}</p>
         </div>
-      </article>
-
+      </div>
+    </div>
+  </article>
   {% endfor %}
 
 
@@ -45,9 +43,5 @@
       {% endif %}
 
   {% endif %}
-
-
-
-
 
 {% endblock %}
